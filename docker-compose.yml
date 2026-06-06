@@ -1,0 +1,36 @@
+services:
+  postgres:
+    image: postgres:16
+    container_name: currency-rate-postgres
+    environment:
+      POSTGRES_DB: currency_rates
+      POSTGRES_USER: currency_user
+      POSTGRES_PASSWORD: currency_password
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  redis:
+    image: redis:7
+    container_name: currency-rate-redis
+    ports:
+      - "6379:6379"
+
+  api:
+    build: .
+    container_name: currency-rate-api
+    depends_on:
+      - postgres
+      - redis
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/currency_rates
+      SPRING_DATASOURCE_USERNAME: currency_user
+      SPRING_DATASOURCE_PASSWORD: currency_password
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+    ports:
+      - "8080:8080"
+
+volumes:
+  postgres_data:

@@ -1,0 +1,30 @@
+spring:
+  application:
+    name: currency-rate-service
+  datasource:
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/currency_rates}
+    username: ${SPRING_DATASOURCE_USERNAME:currency_user}
+    password: ${SPRING_DATASOURCE_PASSWORD:currency_password}
+  jpa:
+    hibernate:
+      ddl-auto: update
+    open-in-view: false
+  cache:
+    type: redis
+  data:
+    redis:
+      host: ${REDIS_HOST:localhost}
+      port: ${REDIS_PORT:6379}
+
+server:
+  port: ${SERVER_PORT:8080}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
