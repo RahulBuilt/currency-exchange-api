@@ -28,7 +28,11 @@ public class ExchangeRateProviderService {
         fetchAndSave("USD");
         fetchAndSave("GBP");
     }
-
+    public void syncNow() {
+        fetchAndSave("EUR");
+        fetchAndSave("USD");
+        fetchAndSave("GBP");
+    }
     public void fetchAndSave(String baseCurrency) {
         webClient.get()
                 .uri("/latest?from=" + baseCurrency)
